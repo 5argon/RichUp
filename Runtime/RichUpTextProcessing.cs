@@ -20,12 +20,12 @@ namespace E7.RichUp
             r = RegexWith(config.blockquoteSurround, r, "^> (.*)", RegexOptions.Multiline);
             r = RegexWith(config.listSurround, r, "^- (.*)", RegexOptions.Multiline);
             
-            r = RegexWith(config.boldItalicSurround, r, @"\*\*\*(.*?)\*\*\*", RegexOptions.None);
-            r = RegexWith(config.boldSurround, r, @"\*\*(.*?)\*\*", RegexOptions.None);
-            r = RegexWith(config.italicSurround, r, @"\*(.*?)\*", RegexOptions.None);
-            r = RegexWith(config.inlineCodeSurround, r, "``(.*?)``", RegexOptions.None);
+            r = RegexWith(config.boldItalicSurround, r, @"\*\*\*([^*]+?)\*\*\*", RegexOptions.None);
+            r = RegexWith(config.boldSurround, r, @"\*\*([^*]+?)\*\*", RegexOptions.None);
+            r = RegexWith(config.italicSurround, r, @"\*([^*]+?)\*", RegexOptions.None);
+            r = RegexWith(config.inlineCodeSurround, r, "`(.+?)`", RegexOptions.None);
 
-            if (config.symbolConfigs.Length > 0)
+            if (config.symbolConfigs != null && config.symbolConfigs.Length > 0)
             {
                 var lineSplitted = r.Split('\n');
                 var sbArray = new StringBuilder[lineSplitted.Length];

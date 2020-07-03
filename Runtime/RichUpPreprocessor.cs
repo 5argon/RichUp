@@ -7,15 +7,19 @@ namespace E7.RichUp
 {
     public class RichUpPreprocessor : MonoBehaviour, ITextPreprocessor
     {
-        [Tooltip("Instead of searching for TMP_Text in the same GameObject, use any TMP_Text assigned on target field.")]
-        [SerializeField] bool referenceTarget;
-        [Tooltip("Reference to the target if referenceTarget is checked.")]
-        [SerializeField] TMP_Text target;
-        [Tooltip("You need to call Apply public method manually with target variable in the code.")]
-        [SerializeField] bool manualApply;
-        [Space]
-        [Tooltip("How original Markdown-like text would turns into rich text.")]
-        [SerializeField] RichUpConfig config;
+        [Tooltip(
+            "Instead of searching for TMP_Text in the same GameObject, use any TMP_Text assigned on target field.")]
+        [SerializeField]
+        bool referenceTarget;
+
+        [Tooltip("Reference to the target if referenceTarget is checked.")] [SerializeField]
+        TMP_Text target;
+
+        [Tooltip("You need to call Apply public method manually with target variable in the code.")] [SerializeField]
+        bool manualApply;
+
+        [Space] [Tooltip("How original Markdown-like text would turns into rich text.")] [SerializeField]
+        RichUpConfig config;
 
         void Start()
         {
@@ -33,7 +37,7 @@ namespace E7.RichUp
 
                 if (findTarget != null)
                 {
-                    Apply(target);
+                    Apply(findTarget);
                 }
             }
         }
@@ -45,7 +49,7 @@ namespace E7.RichUp
 
         string ITextPreprocessor.PreprocessText(string beforeText)
         {
-            return beforeText + "hello!";
+            return RichUpTextProcessing.Process(beforeText, config);
         }
     }
 }

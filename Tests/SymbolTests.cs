@@ -57,7 +57,7 @@ namespace E7.RichUp.Tests
             var symbolConfig = new SymbolConfig();
             symbolConfig.replace = true;
             symbolConfig.symbol = '|';
-            symbolConfig.remainingSurroundConfig.customSurround= true;
+            symbolConfig.remainingSurroundConfig.customSurround = true;
             symbolConfig.replaceWith = "z";
             symbolConfig.remainingSurroundConfig.customOpening = "<";
             symbolConfig.remainingSurroundConfig.customClosing = ">";
