@@ -7,7 +7,7 @@ namespace E7.RichUp.Tests
         [Test]
         public void Headings()
         {
-            var cf = new RichUpConfig();
+            var cf = new Config();
             cf.heading4Surround.customSurround = true;
             cf.heading4Surround.customOpening = "o4";
             cf.heading4Surround.customClosing = "f4";
@@ -40,14 +40,14 @@ nope#### Heading 4
 o4Heading 4f4
 o4Heading 4f4
 ";
-            var processed = RichUpTextProcessing.Process(quiz, cf);
+            var processed = TextProcessingLogic.Process(quiz, cf);
             Assert.That(processed, Is.EqualTo(ans));
         }
 
         [Test]
         public void ListsAndBlockquotes()
         {
-            var cf = new RichUpConfig();
+            var cf = new Config();
             cf.listSurround.customSurround = true;
             cf.listSurround.customOpening = "ol";
             cf.listSurround.customClosing = "fl";
@@ -96,7 +96,7 @@ My > Name > Is > 5argon
 #### Heading 4
 #### Heading 4
 ";
-            var processed = RichUpTextProcessing.Process(quiz, cf);
+            var processed = TextProcessingLogic.Process(quiz, cf);
             Assert.That(processed, Is.EqualTo(ans));
         }
     }

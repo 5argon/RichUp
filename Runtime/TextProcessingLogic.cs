@@ -5,19 +5,19 @@ using System.Text.RegularExpressions;
 
 namespace E7.RichUp
 {
-    internal static class RichUpTextProcessing
+    internal static class TextProcessingLogic
     {
-        internal static string FormatItems(string original, IRichUpItemFormatter formatter)
+        internal static string FormatItems(string original, IItemFormatter formatter)
         {
             return new Regex("{([^{}]+?)}", RegexOptions.Multiline).Replace(original, Replacer);
+
             string Replacer(Match match)
             {
                 return formatter?.FormatItem(match.Groups[1].Value) ?? "";
             }
         }
 
-
-        internal static string Process(string original, RichUpConfig config)
+        internal static string Process(string original, Config config)
         {
             string r = original;
             r = RegexWith(config.heading6Surround, r, "^###### (.*)", RegexOptions.Multiline);
@@ -26,10 +26,10 @@ namespace E7.RichUp
             r = RegexWith(config.heading3Surround, r, "^### (.*)", RegexOptions.Multiline);
             r = RegexWith(config.heading2Surround, r, "^## (.*)", RegexOptions.Multiline);
             r = RegexWith(config.heading1Surround, r, "^# (.*)", RegexOptions.Multiline);
-            
+
             r = RegexWith(config.blockquoteSurround, r, "^> (.*)", RegexOptions.Multiline);
             r = RegexWith(config.listSurround, r, "^- (.*)", RegexOptions.Multiline);
-            
+
             r = RegexWith(config.boldItalicSurround, r, @"\*\*\*([^*]+?)\*\*\*", RegexOptions.None);
             r = RegexWith(config.boldSurround, r, @"\*\*([^*]+?)\*\*", RegexOptions.None);
             r = RegexWith(config.italicSurround, r, @"\*([^*]+?)\*", RegexOptions.None);
@@ -98,7 +98,7 @@ namespace E7.RichUp
         /// <summary>
         /// Generates tons of garbage.
         /// </summary>
-        private static void SymbolProcessing(StringBuilder sb, RichUpConfig config)
+        private static void SymbolProcessing(StringBuilder sb, Config config)
         {
             for (int i = 0; i < config.symbolConfigs.Length; i++)
             {

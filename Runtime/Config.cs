@@ -4,7 +4,7 @@ using UnityEngine;
 namespace E7.RichUp
 {
     [Serializable]
-    internal struct RichUpConfig
+    internal struct Config
     {
         [SerializeField] internal SurroundConfig italicSurround;
         [SerializeField] internal SurroundConfig boldSurround;

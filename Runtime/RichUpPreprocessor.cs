@@ -19,9 +19,9 @@ namespace E7.RichUp
         bool manualApply;
 
         [Space] [Tooltip("How original Markdown-like text would turns into rich text.")] [SerializeField]
-        RichUpConfig config;
+        Config config;
 
-        IRichUpItemFormatter itemFormatter;
+        IItemFormatter itemFormatter;
 
         void Start()
         {
@@ -43,7 +43,7 @@ namespace E7.RichUp
                 }
             }
 
-            itemFormatter = GetComponent<IRichUpItemFormatter>();
+            itemFormatter = GetComponent<IItemFormatter>();
         }
 
         public void Apply(TMP_Text textTarget)
@@ -53,8 +53,8 @@ namespace E7.RichUp
 
         string ITextPreprocessor.PreprocessText(string beforeText)
         {
-            var processed = RichUpTextProcessing.Process(beforeText, config);
-            var formatted = RichUpTextProcessing.FormatItems(processed, itemFormatter);
+            var processed = TextProcessingLogic.Process(beforeText, config);
+            var formatted = TextProcessingLogic.FormatItems(processed, itemFormatter);
             return formatted;
         }
     }

@@ -4,13 +4,13 @@ namespace E7.RichUp.Tests
 {
     public class SymbolTests
     {
-        RichUpConfig replaceConfig;
-        RichUpConfig remainingSurroundConfig;
+        Config replaceConfig;
+        Config remainingSurroundConfig;
 
         [SetUp]
         public void Before()
         {
-            replaceConfig = new RichUpConfig();
+            replaceConfig = new Config();
             var symbolConfig = new SymbolConfig();
             symbolConfig.symbol = '|';
             symbolConfig.replace = true;
@@ -20,31 +20,31 @@ namespace E7.RichUp.Tests
             symbolConfig.remainingSurroundConfig.styleSurround = true;
             symbolConfig.remainingSurroundConfig.styleName = "mystyle";
 
-            remainingSurroundConfig = new RichUpConfig();
+            remainingSurroundConfig = new Config();
             remainingSurroundConfig.symbolConfigs = new SymbolConfig[] {symbolConfig};
         }
 
         [Test]
         public void SymbolNotFound()
         {
-            var processed = RichUpTextProcessing.Process("Hello, no symbol", replaceConfig);
+            var processed = TextProcessingLogic.Process("Hello, no symbol", replaceConfig);
             Assert.That(processed, Is.EqualTo("Hello, no symbol"));
 
-            var processed2 = RichUpTextProcessing.Process("Hello, no symbol", remainingSurroundConfig);
+            var processed2 = TextProcessingLogic.Process("Hello, no symbol", remainingSurroundConfig);
             Assert.That(processed2, Is.EqualTo("Hello, no symbol"));
         }
 
         [Test]
         public void Replace()
         {
-            var processed = RichUpTextProcessing.Process("Hello| there is a | symbol", replaceConfig);
+            var processed = TextProcessingLogic.Process("Hello| there is a | symbol", replaceConfig);
             Assert.That(processed, Is.EqualTo("Hellohaha there is a haha symbol"));
         }
 
         [Test]
         public void Surround()
         {
-            var processed = RichUpTextProcessing.Process("Hello| there is a | symbol", remainingSurroundConfig);
+            var processed = TextProcessingLogic.Process("Hello| there is a | symbol", remainingSurroundConfig);
             Assert.That(processed,
                 Is.EqualTo(
                     "<style=\"mystyle\">Hello</style>haha<style=\"mystyle\"> there is a </style>haha<style=\"mystyle\"> symbol</style>"));
@@ -53,7 +53,7 @@ namespace E7.RichUp.Tests
         [Test]
         public void MultilineEverything()
         {
-            var multilineEverything = new RichUpConfig();
+            var multilineEverything = new Config();
             var symbolConfig = new SymbolConfig();
             symbolConfig.replace = true;
             symbolConfig.symbol = '|';
@@ -64,7 +64,7 @@ namespace E7.RichUp.Tests
             multilineEverything.symbolConfigs = new[] {symbolConfig};
 
             var processed =
-                RichUpTextProcessing.Process("Mu|lti|line line 1.\nMul|tiline li|ne 2.", multilineEverything);
+                TextProcessingLogic.Process("Mu|lti|line line 1.\nMul|tiline li|ne 2.", multilineEverything);
             Assert.That(processed,
                 Is.EqualTo(
                     "<Mu>z<lti>z<line line 1.>\n<Mul>z<tiline li>z<ne 2.>"));

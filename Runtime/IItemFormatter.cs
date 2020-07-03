@@ -1,6 +1,10 @@
 namespace E7.RichUp
 {
-    public interface IRichUpItemFormatter
+    /// <summary>
+    /// Add a component implementing this interface on the same
+    /// GameObject as <see cref="RichUpPreprocessor"/> to process items in {} brackets.
+    /// </summary>
+    public interface IItemFormatter
     {
         /// <summary>
         /// Please return what {item_name} supposed to be for each item_name.
