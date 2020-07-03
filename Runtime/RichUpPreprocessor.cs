@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace E7.RichUp
@@ -23,34 +21,43 @@ namespace E7.RichUp
         [Space] [Tooltip("How original Markdown-like text would turns into rich text.")] [SerializeField]
         Config config;
 
-        IItemFormatter itemFormatter;
+        private IItemFormatter itemFormatter;
+        private TMP_Text textTarget;
 
-        void Start()
+        void OnEnable()
         {
             if (!manualApply)
             {
-                TMP_Text findTarget = null;
                 if (customTarget)
                 {
-                    findTarget = customTargetReference;
+                    textTarget = customTargetReference;
                 }
                 else
                 {
-                    findTarget = GetComponent<TMP_Text>();
+                    textTarget = GetComponent<TMP_Text>();
                 }
 
-                if (findTarget != null)
-                {
-                    Apply(findTarget);
-                }
+                Apply(textTarget);
             }
 
             itemFormatter = GetComponent<IItemFormatter>();
         }
 
-        public void Apply(TMP_Text textTarget)
+        void OnDisable()
         {
-            textTarget.textPreprocessor = this;
+            if (textTarget != null && ReferenceEquals(textTarget.textPreprocessor, this))
+            {
+                textTarget.textPreprocessor = null;
+            }
+        }
+
+        public void Apply(TMP_Text target)
+        {
+            if (target != null)
+            {
+                target.textPreprocessor = this;
+                target.ForceMeshUpdate(true, true);
+            }
         }
 
         string ITextPreprocessor.PreprocessText(string beforeText)
