@@ -28,9 +28,5 @@ namespace E7.RichUp
         [Space]
         
         [SerializeField] internal SymbolConfig[] symbolConfigs;
-        
-        [Space]
-        
-        [SerializeField] internal PositionalVariableConfig[] positionalVariableConfigs;
     }
 }

@@ -7,6 +7,16 @@ namespace E7.RichUp
 {
     internal static class RichUpTextProcessing
     {
+        internal static string FormatItems(string original, IRichUpItemFormatter formatter)
+        {
+            return new Regex("{([^{}]+?)}", RegexOptions.Multiline).Replace(original, Replacer);
+            string Replacer(Match match)
+            {
+                return formatter?.FormatItem(match.Groups[1].Value) ?? "";
+            }
+        }
+
+
         internal static string Process(string original, RichUpConfig config)
         {
             string r = original;
