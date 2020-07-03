@@ -8,15 +8,17 @@ namespace E7.RichUp
     public class RichUpPreprocessor : MonoBehaviour, ITextPreprocessor
     {
         [Tooltip(
+            "When on, you need to call Apply public method manually with target variable in the code. TMP_Text on the same game object will not be the target. Custom target also has no effect.")]
+        [SerializeField]
+        bool manualApply;
+
+        [Tooltip(
             "Instead of searching for TMP_Text in the same GameObject, use any TMP_Text assigned on target field.")]
         [SerializeField]
-        bool referenceTarget;
+        bool customTarget;
 
         [Tooltip("Reference to the target if referenceTarget is checked.")] [SerializeField]
-        TMP_Text target;
-
-        [Tooltip("You need to call Apply public method manually with target variable in the code.")] [SerializeField]
-        bool manualApply;
+        TMP_Text customTargetReference;
 
         [Space] [Tooltip("How original Markdown-like text would turns into rich text.")] [SerializeField]
         Config config;
@@ -28,9 +30,9 @@ namespace E7.RichUp
             if (!manualApply)
             {
                 TMP_Text findTarget = null;
-                if (referenceTarget)
+                if (customTarget)
                 {
-                    findTarget = target;
+                    findTarget = customTargetReference;
                 }
                 else
                 {
