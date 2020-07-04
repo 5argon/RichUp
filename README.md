@@ -15,7 +15,7 @@ It uses `ITextPreprocessor` feature that is currently only in preview versions o
 ## How to use
 
 - Attach `RichUpPreprocessor` component on the same game object as `TMP_Text`. Alternatively you can use custom target fields.
-- Setup how to turn which Markdown into which rich text tags on the `config`. It is a big cumbersome tree of serialized data. There is no custom editor yet since I am lazy, but it works.
+- Setup how to turn which Markdown into which rich text tags on the `config`. It is a big cumbersome tree of serialized data. There is no custom editor yet for now, but it works.
 - Additionally create a new component that implements `IItemFormatter` to use named format items feature. (described below)
 
 ## Features
@@ -38,9 +38,11 @@ Attach a component implementing `IItemFormatter` on the same game object as `Ric
 
 ### Symbols
 
-Symbol is a single `char`. You can config RichUp to replace it with any `string` of your choice. However it has one special ability, in addition to replacing the symbol, all other strings in between them also become surround targets. This surrounding only occurs if it found at least 1 symbol. Symbol works line by line.
+Symbol is a single `char`. You can config RichUp to replace it with any `string` of your choice. Very simple. The reason it must be a `char` and not `string` is because I use C# `.Split` which only accepts a `char`.
 
-For example this text `fo|obar foo|bar`, I could look for a symbol `|` then config it so the replacement is `@` and the surround is `<b>...</b>`. Therefore, the output is `<b>fo</b>@<b>obar foo</b>@<b>bar</b>`.
+It currently has one special ability, in addition to replacing the symbol, all other strings in between them also could become surround targets. This surrounding only occurs if it found at least 1 symbol. Symbol works line by line.
+
+For example this text `fo|obar foo|bar`, I could look for a symbol `|` then config it so the replacement is `@` and the surround is `<b>...</b>`. Therefore, the output is `<b>fo</b>@<b>obar foo</b>@<b>bar</b>`. This may sounds wacky and useless, but I have my use case. (explained below)
 
 ## What I use it for
 
@@ -54,4 +56,10 @@ For example this text `fo|obar foo|bar`, I could look for a symbol `|` then conf
 
 ## Performance notes
 
-RichUp has no dependency to any Markdown processor library. The transformation was amateurly newly coded. There is no consideration for performance at all. It probably generates tons of garbages due to repeated `ToString` from `StringBuilder`, repeated `.Split`, and uses `Regex`. But I don't really care for the scenario that it is going to be used. (PR welcome!)
+RichUp has no dependency to any Markdown processor library. The transformation was amateurly newly coded. There is no consideration for performance at all. It probably generates tons of garbages due to repeated `ToString` from `StringBuilder`, repeated `.Split`, and uses `Regex`. But I don't really care about that in the scenario that it is going to be used. (PR welcome!)
+
+## Trivia
+
+- The situation in the screenshot is non-fiction.
+- The name is a play on word Markdown and rich text, but incidentally I literally rich up in an instant I stepped off my love for Unity and game based jobs to work on more mainstream job.. with real salary now I could buy cakes in coffee shop without much brain processing unlike before.
+- This plugin serves as my Unity warm-up since 4 months that I had to be away to farm zenny. Luckily I got a job that could be done with no friction in COVID...
