@@ -60,7 +60,7 @@ namespace E7.RichUp
             }
         }
 
-        string ITextPreprocessor.PreprocessText(string beforeText)
+        public string PreprocessText(string beforeText)
         {
             var processed = TextProcessingLogic.Process(beforeText, config);
             var formatted = TextProcessingLogic.FormatItems(processed, itemFormatter);
