@@ -5,6 +5,7 @@ namespace E7.RichUp
 {
     public class RichUpPreprocessor : MonoBehaviour, ITextPreprocessor
     {
+#pragma warning disable 0649
         [Tooltip(
             "When on, you need to call Apply public method manually with target variable in the code. TMP_Text on the same game object will not be the target. Custom target also has no effect.")]
         [SerializeField]
@@ -20,6 +21,7 @@ namespace E7.RichUp
 
         [Space] [Tooltip("How original Markdown-like text would turns into rich text.")] [SerializeField]
         Config config;
+#pragma warning restore 0649
 
         private IItemFormatter itemFormatter;
         private TMP_Text textTarget;
