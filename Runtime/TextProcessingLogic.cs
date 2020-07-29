@@ -9,6 +9,10 @@ namespace E7.RichUp
     {
         internal static string FormatItems(string original, IItemFormatter formatter)
         {
+            if (string.IsNullOrEmpty(original))
+            {
+                return original;
+            }
             return new Regex("{([^{}]+?)}", RegexOptions.Multiline).Replace(original, Replacer);
 
             string Replacer(Match match)
@@ -19,6 +23,11 @@ namespace E7.RichUp
 
         internal static string Process(string original, Config config)
         {
+            if (string.IsNullOrEmpty(original))
+            {
+                return original;
+            }
+
             string r = original;
             r = RegexWith(config.heading6Surround, r, "^###### (.*)", RegexOptions.Multiline);
             r = RegexWith(config.heading5Surround, r, "^##### (.*)", RegexOptions.Multiline);

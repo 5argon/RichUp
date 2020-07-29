@@ -64,6 +64,10 @@ namespace E7.RichUp
 
         public string PreprocessText(string beforeText)
         {
+            if (string.IsNullOrEmpty(beforeText))
+            {
+                return beforeText;
+            }
             var processed = TextProcessingLogic.Process(beforeText, config);
             var formatted = TextProcessingLogic.FormatItems(processed, itemFormatter);
             return formatted;
