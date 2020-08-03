@@ -6,7 +6,7 @@
 
 The text you see in `TMP_Text` stays in their Markdown form even at runtime. It is possible to change the text in their Markdown form at runtime to generate their new rich text appearance.
 
-Though only small subset of Markdown (that I personally wanted to use) is supported, I have added other rich, but unrelated functionalities : **named format items** and **symbols**.
+Though only small subset of Markdown (that I personally wanted to use) is supported, I have added other rich, but unrelated functionalities : **named format items**, **symbols**, and **manual line breaking**
 
 ## Prerequisites
 
@@ -44,6 +44,18 @@ It currently has one special ability, in addition to replacing the symbol, all o
 
 For example this text `fo|obar foo|bar`, I could look for a symbol `|` then config it so the replacement is `@` and the surround is `<b>...</b>`. Therefore, the output is `<b>fo</b>@<b>obar foo</b>@<b>bar</b>`. This may sounds wacky and useless, but I have my use case. (explained below)
 
+### Manual Line Breaking
+
+CJK languages which has no spaces will instead breakable on every character in TMP, as opposed to not breakable at all between characters but breakable on spaces. In some case like light novel, you can get away with manually defining maximum characters per line then manually count and add carriage return in the string as desired. However in a dynamic width container like pop-up dialog or text on the button, that may even change when played on different device, you will want the text to be broken automatically like in English.
+
+By manually wrapping `<nobr></nobr>` one could cancel all breaking rule and make the string not break. And zero-width space `<zwsp>` could be used to break where you want because it works like spaces in English except you cannot see it. But you also cannot put `<zwsp>` inside `<nobr>` because it would get canceled out. Having any space characters inside `<nobr>` will get canceled out as well.
+
+For example `日常に溶け込むシンプルなデザイン` if I would like to only allow it to break at `|` : `日常に|溶け込む|シンプルな|デザイン`, then the rich text required is : `<nobr>日常に</nobr><zwsp><nobr>溶け込む<nobr><zwsp><nobr>シンプルな</nobr><zwsp><nobr>デザイン</nobr>`.
+
+The line breaking information should be bundled in the text resource file, and obviously I would rather have `日常に|溶け込む|シンプルな|デザイン` saved in that file. (So I also could teach my translator more easily how to mark line break.) 
+
+This manual line breaking feature is basically, if a defined symbol character exist in the string, it removes all the symbols then add `<nobr>` and `<zwsp>` as described. The core logic is shared with symbol feature.
+
 ## What I use it for
 
 - I don't enjoy typing rich text tags in long wall of text, like credits or in-game patch notes. Now I could just use Markdown.
@@ -51,7 +63,6 @@ For example this text `fo|obar foo|bar`, I could look for a symbol `|` then conf
 - Each area of the game could treat "emphasis" differently with TMP stylesheet. Perhaps in different colors.
 - I have easier time telling my translator to put emphasis (`*`) around something, rather than `<color=yellow></color>`.
 - I was typing `{0}` and `{1}` and so on in my text resource in order to feed them into `String.Format` at runtime before putting the result on `TMP_Text`. Now I forgot what they are and it is even harder to tell the translator. I would like to use a string instead of numbers.
-- The symbol feature was created specifically for this problem : To manually allow line break at specified position instead of at *every characters* in CJK languages, one has to combine `<nobr>` surrounding chunks of text that should not break, then use `<zwsp>` (zero-width space) to break similar to having a space bar without taking space. For example `日常に溶け込むシンプルなデザイン` if I would like to only allow it to break at `|` : `日常に|溶け込む|シンプルな|デザイン`, then the rich text required is : `<nobr>日常に</nobr><zwsp><nobr>溶け込む<nobr><zwsp><nobr>シンプルな</nobr><zwsp><nobr>デザイン</nobr>`. The line breaking information should be bundled in the text resource file, and obviously I would rather have `日常に|溶け込む|シンプルな|デザイン` saved in that file. (So I also could teach my translator more easily how to mark line break.) Then symbol feature then allows me to replace `|` with `<zwsp>` and surround the rest with `<nobr></nobr>`.
 - The symbol could be useful to replace it with [sprite tag](http://digitalnativestudios.com/textmeshpro/docs/rich-text/#sprite). Find some single character glyph that represent a heart, to be replaced with a real heart sprite, for example.
 
 ## Performance notes

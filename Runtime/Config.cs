@@ -40,5 +40,10 @@ namespace E7.RichUp
         [Space]
         
         [SerializeField] internal SymbolConfig[] symbolConfigs;
+        
+        [Space]
+        
+        [Tooltip("To add line breaking rich text tags for languages without spacebar.")]
+        [SerializeField] internal ManualBreakingConfig manualBreakingConfig;
     }
 }
